@@ -1,0 +1,115 @@
+/* Initial styles with poor contrast for accessibility testing */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #2c5aa0;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #4a90e2;
+    margin-top: 30px;
+}
+
+.test-form {
+    margin: 20px 0;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    /* Improved contrast: dark text for better readability */
+    color: #1a1a1a;
+}
+
+/* Improved contrast input styles - accessible for color-blind users */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #666666;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+    
+    /* High contrast: dark text on white background */
+    background-color: #ffffff;
+    color: #1a1a1a;
+}
+
+/* Improved focus states with high contrast */
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="tel"]:focus,
+textarea:focus {
+    outline: none;
+    /* High contrast focus indicator: thick dark blue border */
+    border-color: #0066cc;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.3);
+}
+
+/* Improved placeholder contrast */
+input::placeholder,
+textarea::placeholder {
+    color: #666666; /* Medium gray with good contrast */
+}
+
+.submit-btn {
+    background-color: #0066cc; /* High contrast blue background */
+    color: #ffffff; /* White text for maximum contrast */
+    padding: 12px 24px;
+    border: 2px solid #0066cc;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #004499;
+    border-color: #004499;
+}
+
+.submit-btn:focus {
+    outline: 3px solid #ffcc00; /* High contrast yellow focus ring */
+    outline-offset: 2px;
+}
+
+.info-section {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-left: 4px solid #0066cc; /* High contrast blue border */
+    border-radius: 4px;
+}
+
+.info-section p {
+    color: #1a1a1a; /* High contrast dark text */
+    line-height: 1.5;
+}
