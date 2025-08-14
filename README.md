@@ -4,7 +4,7 @@ A demonstration application built with Node.js backend, Next.js frontend, Rust D
 
 ## Architecture
 
-- **Backend**: Node.js with Express.js API server (port 3001)
+- **Backend**: Node.js with Fastify API server (port 3001)
 - **Frontend**: Next.js React application with TypeScript and Tailwind CSS (port 3000)
 - **DevOps**: Rust-based CLI tools for health checks, testing, and deployment
 - **Database**: MongoDB for storing calculation history (optional)
@@ -144,7 +144,7 @@ The application includes:
 
 ## Technology Stack
 
-- **Backend**: Node.js, Express.js, MongoDB driver, CORS, dotenv
+- **Backend**: Node.js, Fastify, MongoDB driver, @fastify/cors, dotenv
 - **Frontend**: Next.js 15, React 19, TypeScript, Tailwind CSS
 - **DevOps**: Rust, Tokio, Reqwest, Serde JSON
 - **Database**: MongoDB (optional)

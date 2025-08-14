@@ -1,14 +1,11 @@
-const express = require('express');
-const cors = require('cors');
+const fastify = require('fastify')({ logger: true });
 const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
-const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Middleware
-app.use(cors());
-app.use(express.json());
+// Register CORS plugin
+fastify.register(require('@fastify/cors'));
 
 // MongoDB connection (optional - for storing calculation history)
 let db = null;
@@ -29,23 +26,23 @@ async function connectToMongoDB() {
 }
 
 // Routes
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', message: 'API is running' });
+fastify.get('/api/health', async (request, reply) => {
+  reply.send({ status: 'OK', message: 'API is running' });
 });
 
-app.post('/api/add', async (req, res) => {
+fastify.post('/api/add', async (request, reply) => {
   try {
-    const { num1, num2 } = req.body;
+    const { num1, num2 } = request.body;
     
     // Validation
     if (typeof num1 !== 'number' || typeof num2 !== 'number') {
-      return res.status(400).json({ 
+      return reply.status(400).send({ 
         error: 'Both num1 and num2 must be numbers' 
       });
     }
     
     if (!isFinite(num1) || !isFinite(num2)) {
-      return res.status(400).json({ 
+      return reply.status(400).send({ 
         error: 'Numbers must be finite values' 
       });
     }
@@ -66,7 +63,7 @@ app.post('/api/add', async (req, res) => {
       }
     }
     
-    res.json({
+    reply.send({
       num1,
       num2,
       sum,
@@ -74,14 +71,14 @@ app.post('/api/add', async (req, res) => {
     });
   } catch (error) {
     console.error('Error in /api/add:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    reply.status(500).send({ error: 'Internal server error' });
   }
 });
 
-app.get('/api/history', async (req, res) => {
+fastify.get('/api/history', async (request, reply) => {
   try {
     if (!db) {
-      return res.status(503).json({ error: 'Database not available' });
+      return reply.status(503).send({ error: 'Database not available' });
     }
     
     const history = await db.collection('calculations')
@@ -90,10 +87,10 @@ app.get('/api/history', async (req, res) => {
       .limit(10)
       .toArray();
     
-    res.json(history);
+    reply.send(history);
   } catch (error) {
     console.error('Error fetching history:', error);
-    res.status(500).json({ error: 'Failed to fetch calculation history' });
+    reply.status(500).send({ error: 'Failed to fetch calculation history' });
   }
 });
 
@@ -101,10 +98,14 @@ app.get('/api/history', async (req, res) => {
 async function startServer() {
   await connectToMongoDB();
   
-  app.listen(PORT, () => {
+  try {
+    await fastify.listen({ port: PORT, host: '0.0.0.0' });
     console.log(`Server running on port ${PORT}`);
     console.log(`Health check: http://localhost:${PORT}/api/health`);
-  });
+  } catch (err) {
+    fastify.log.error(err);
+    process.exit(1);
+  }
 }
 
 startServer().catch(console.error);
