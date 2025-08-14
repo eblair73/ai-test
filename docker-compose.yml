@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: ai-test-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: ai-test
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - ai-test-network
+
+  backend:
+    build:
+      context: .
+      target: backend-builder
+    container_name: ai-test-backend
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - MONGODB_URI=mongodb://mongodb:27017/ai-test
+    depends_on:
+      - mongodb
+    networks:
+      - ai-test-network
+    command: npm start
+
+  frontend:
+    build:
+      context: .
+      target: frontend-builder
+    container_name: ai-test-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - ai-test-network
+    command: npm start
+
+volumes:
+  mongodb_data:
+
+networks:
+  ai-test-network:
+    driver: bridge

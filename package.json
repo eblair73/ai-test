@@ -1,0 +1,29 @@
+{
+  "name": "ai-test-application",
+  "version": "1.0.0",
+  "description": "A test application demonstrating Node.js backend, Next.js frontend, and Rust DevOps tools",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install && cd ../devops && cargo build --release",
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "cd frontend && npm run dev",
+    "dev": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "build": "cd backend && npm install && cd ../frontend && npm run build && cd ../devops && cargo build --release",
+    "test": "cd devops && cargo run --release -- test",
+    "health": "cd devops && cargo run --release -- health"
+  },
+  "keywords": [
+    "nodejs",
+    "nextjs",
+    "rust",
+    "mongodb",
+    "api",
+    "calculator",
+    "devops"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
