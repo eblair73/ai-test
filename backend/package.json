@@ -8,13 +8,13 @@
     "dev": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["api", "nodejs", "express", "mongodb"],
+  "keywords": ["api", "nodejs", "fastify", "mongodb"],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cors": "^2.8.5",
+    "@fastify/cors": "^9.0.0",
     "dotenv": "^17.2.1",
-    "express": "^5.1.0",
+    "fastify": "^4.28.0",
     "mongodb": "^6.18.0"
   }
 }
